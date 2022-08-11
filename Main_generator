@@ -1,0 +1,78 @@
+import random
+name_list = [
+"James", "Mary", "Robert", "Patricia", "John", "Jennifer", "Michael", "Linda", "David", "Elizabeth", "William", "Barbara",
+ "Richard", "Susan", "Joseph", "Jessica", "Thomas", "Sarah", "Charles", "Karen", "Christopher", "Lisa", "Daniel", "Nancy", 
+ "Matthew", "Betty", "Anthony", "Margaret", "Mark", "Sandra", "Donald", "Ashley", "Steven", "Kimberly", "Paul", "Emily", 
+ "Andrew", "Donna", "Joshua", "Michelle", "Kenneth", "Carol", "Kevin", "Amanda", "Brian", "Dorothy", "George", "Melissa",
+ "Timothy", "Deborah", "Ronald", "Stephanie", "Edward", "Rebecca", "Jason", "Sharon", "Jeffrey", "Laura", "Ryan",
+ "Cynthia", "Jacob", "Kathleen", "Gary", "Amy", "Nicholas", "Angela", "Eric", "Shirley", "Jonathan", "Anna", "Stephen", 
+ "Brenda", "Larry", "Pamela", "Justin", "Emma", "Scott", "Nicole", "Brandon", "Helen", "Benjamin", "Samantha", "Samuel", 
+ "Katherine", "Gregory", "Christine", "Alexander", "Debra", "Frank", "Rachel", "Patrick", "Carolyn", "Raymond", "Janet",
+ "Jack", "Catherine", "Dennis", "Maria", "Jerry", "Heather", "Tyler", "Diane", "Aaron", "Ruth", "Jose", "Julie", "Adam", 
+ "Samwillie", "Xavier", "Briar", "Zachary", "Dakotah", "Thomussie"  
+ ]
+item_list1 = ['ptarmigan', 'caribou', 'rabbits', 'snowshoes', 'beavers', 'moccasins', 'slushies', 'pieces of bannock']
+item_list_box = ['pencils', 'crayons', 'markers', 'highlighters', 'stickers']
+actions1 = ['had', 'owned','was given', 'received']
+actionssub = ['sold', 'gave away', 'lost']
+actionsadd = ['were given', 'found', 'purchased', 'bought' ]
+
+class Question:
+    def __init__(self, lower1, upper1, lower2, upper2):
+        self.lower1 = lower1
+        self.upper1 = upper1
+        self.lower2 = lower2
+        self.upper2 = upper2
+    #attributes to be used. actions1_item is for initial part of question - ie - sam HAS 10 things (HAS = actions1_item),
+    #actionssub_item, actionadd_item etc are the action verbs that make up the 2nd part of question - ie she LOSES 5 things (LOSES = actionsub_item),
+
+    # generates a question with subtraction(with the given parameters above)
+    # also returns answer - format (sentence, answer)
+    def generate_sub_quest(self):
+         name_item = random.choice(name_list)
+         item_item = random.choice(item_list1)
+         actions1_item = random.choice(actions1)
+         actionsub_item = random.choice(actionssub)
+         num1 = random.randint(self.lower1, self.upper1)
+         num2 = random.randint(self.lower2, self.upper2)
+         sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionsub_item} {num2}, how many {item_item} are left?"
+         answer = num1 - num2
+         return sentence, answer
+
+    # generates a question with addition(with the given parameters above)
+    # also returns answer - format (sentence, answer)
+    def generate_add_quest(self):
+        name_item = random.choice(name_list)
+        item_item = random.choice(item_list1)
+        actions1_item = random.choice(actions1)
+        actionadd_item = random.choice(actionsadd)
+        num1 = random.randint(self.lower1, self.upper1)
+        num2 = random.randint(self.lower2, self.upper2)
+        sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionadd_item} {num2} more, how many {item_item} do they have now?"
+        answer = num1 + num2
+        return sentence, answer
+
+
+    def generate_mult_box(self):
+        name_item = random.choice(name_list)
+        item_item = random.choice(item_list_box)
+        num1 = random.randint(self.lower1, self.upper1)
+        num2 = random.randint(self.lower2, self.upper2)
+        actions1_item = random.choice(actions1)
+        sentence = f'{name_item} {actions1_item} {num1} boxes of {item_item}, if there are {num2} {item_item} in each box, how many are there total? '
+        answer = num1 * num2
+        return sentence, answer
+
+    def generate_mult_drive(self):
+        name_item = random.choice(name_list)
+        num1 = random.randint(self.lower1, self.upper1)
+        num2 = random.randint(self.lower2, self.upper2)
+        sentence = f'{name_item} is heading to camp. They are driving {num1} km per hour (km/h) on their Honda, if they drive for {num2} hours, how far have they travelled?'
+        answer = num1 * num2
+        return sentence, answer
+
+#example
+q1 = Question(3, 8, 10, 14)
+
+print(q1.generate_mult_box())
+

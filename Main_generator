@@ -20,93 +20,119 @@ actionsadd = ['were given', 'found', 'purchased', 'bought' ]
 # attributes to be used. actions1_item is for initial part of certain questions - ex - sam HAS 10 things (HAS = actions1_item),
 # actionssub_item, actionadd_item etc are the action verbs that make up the 2nd part of question - ie she LOSES 5 things (LOSES = actionsub_item)
 
-
 class Question:
     def __init__(self):
         pass
-
     #all following generate functions will return the sentence as a string, followed by the correct answer
     # generates a question with subtraction(with the gi# also returns answer - format (sentence, answer)
-    def generate_sub_quest(self, lower1, upper1, lower2, upper2):
+    def generate_sub_quest(self, lower, upper,negative):
          name_item = random.choice(name_list)
          item_item = random.choice(item_list1)
          actions1_item = random.choice(actions1)
          actionsub_item = random.choice(actionssub)
-         num1 = random.randint(lower1, upper1)
-         num2 = random.randint(lower2, upper2)
-         sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionsub_item} {num2}, how many {item_item} are left?"
-         answer = num1 - num2
+         num1 = random.randint(lower, upper)
+         num2 = random.randint(lower, upper)
+         if negative == 'y':
+            sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionsub_item} {num2}, how many {item_item} are left?"
+            answer = num1 - num2
+         else:
+             while True:
+                if num1 > num2:
+                    sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionsub_item} {num2}, how many {item_item} are left?"
+                    answer = num1 - num2
+                    break
+                else:
+                    num1 = random.randint(lower, upper)
+                    num2 = random.randint(lower, upper)
          return sentence, answer
 
     # generates a question with addition(with the given parameters above)
     # also returns answer - format (sentence, answer)
-    def generate_add_quest(self, lower1, upper1, lower2, upper2):
+    def generate_add_quest(self, lower, upper):
         name_item = random.choice(name_list)
         item_item = random.choice(item_list1)
         actions1_item = random.choice(actions1)
         actionadd_item = random.choice(actionsadd)
-        num1 = random.randint(lower1, upper1)
-        num2 = random.randint(lower2, upper2)
+        num1 = random.randint(lower, upper)
+        num2 = random.randint(lower, upper)
         sentence = f"{name_item} {actions1_item} {num1} {item_item}, they {actionadd_item} {num2} more, how many {item_item} do they have now?"
         answer = num1 + num2
         return sentence, answer
 
-
-    def generate_mult_box(self, lower1, upper1, lower2, upper2):
+    def generate_mult_box(self, lower, upper):
         name_item = random.choice(name_list)
         item_item = random.choice(item_list_box)
-        num1 = random.randint(lower1, upper1)
-        num2 = random.randint(lower2, upper2)
+        num1 = random.randint(lower, upper)
+        num2 = random.randint(lower, upper)
         actions1_item = random.choice(actions1)
         sentence = f'{name_item} {actions1_item} {num1} boxes of {item_item}, if there are {num2} {item_item} in each box, how many are there total? '
         answer = num1 * num2
         return sentence, answer
 
-    def generate_mult_drive(self, lower1, upper1, lower2, upper2):
+    def generate_mult_drive(self, lower, upper):
         name_item = random.choice(name_list)
-        num1 = random.randint(lower1, upper1)
-        num2 = random.randint(lower2, upper2)
+        num1 = random.randint(lower, upper)
+        num2 = random.randint(lower, upper)
         sentence = f'{name_item} is heading to camp. They are driving {num1} km per hour (km/h) on their Honda, if they drive for {num2} hours, how far have they travelled?'
         answer = num1 * num2
         return sentence, answer
 
-    def generate_divis_drive(self, lower1, upper1, lower2, upper2, whole):
-        num1 = random.randint(lower1, upper1)
-        num2 = random.randint(lower2, upper2)
+    def generate_divis_drive(self, lower, upper, whole):
+        num1 = random.randint(lower, upper)
+        num2 = random.randint(lower/2, upper/2)
         name_item = random.choice(name_list)
         #check if dividend is larger than divisor
-        if whole == 'y' and num1 < num2:
-            raise ValueError('first number must be adequately higher than second to generate even answers')
-        # generate whole numbers for answer
-        elif whole == 'y' and num1 > num2:
+        if whole == 'y':
             while num1 % num2 != 0:
-                num1 = random.randint(lower1, upper1)
-                num2 = random.randint(lower2, upper2)
+                num1 = random.randint(lower, upper)
+                num2 = random.randint(lower/2, upper/2)
             else:
-                sentence = f'{name_item} is planning their trip to camp. Their Camp is {num1} km away, How fast will they need to drive to arrive there in {num2} hours?'
+                sentence = f'{name_item} is planning their trip to camp. Their Camp is {num1} km away, How fast will they need to drive on average to arrive there in {num2} hours?'
                 answer = num1/num2
 
         #when we dont need whole numbers for answer
         elif whole == 'n':
-            sentence = f'{name_item} is planning their trip to camp. Their Camp is {num1} km away, How fast will they need to drive to arrive there in {num2} hours?'
+            sentence = f'{name_item} is planning their trip to camp. Their Camp is {num1} km away, How fast will they need to drive on average to arrive there in {num2} hours?'
 
         else:
             raise ValueError('Please input y or n for "whole"')
 
         return sentence, answer
 
-
 q1 = Question()
 
-#
-# print(q1.generate_sub_quest(1, 10, 11, 19))
-# print(q1.generate_add_quest(1, 10, 11, 19))
-# print(q1.generate_mult_box(1, 10, 11, 19))
-# print(q1.generate_mult_drive(1, 10, 11, 19))
-print(q1.generate_divis_drive(100, 200, 5, 20, 'y'))
-# class Window:
-#     def __init__(self, root, title,  )
 
-# class Main:
-#     root = Tk()
-#     Window1 =
+print(q1.generate_sub_quest(1, 5, 'n'))
+print(q1.generate_add_quest(1, 20))
+print(q1.generate_mult_box(1, 20))
+print(q1.generate_mult_drive(1, 10))
+print(q1.generate_divis_drive(10, 100, 'y'))
+
+#GUI STUFF BELOW
+#main window for gui
+rad_font = ('Cambria', 20)
+class BigWindow:
+    def __init__(self, root, title, geometry):
+        self.root = root
+        self.root.title(title)
+        self.root.geometry(geometry)
+
+        #create check buttons
+        addbutt = IntVar()
+        subbutt = IntVar()
+        multbutt = IntVar()
+        divbutt = IntVar()
+
+        Checkbutton(self.root, text = 'Addition', variable = addbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row = 0, column = 0, sticky = 'W')
+        Checkbutton(self.root, text = 'Subtraction', variable = subbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row = 1, column = 0, sticky = 'W')
+        Checkbutton(self.root, text='Multiplication', variable=multbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row=2, column=0, sticky = 'W')
+        Checkbutton(self.root, text='Division', variable=divbutt, onvalue=1, offvalue = 0, font = rad_font, pady = 40).grid(row=3, column=0, sticky = 'W')
+
+        self.root.mainloop()
+        #function to get Checkbutton input
+
+class Main:
+    root = Tk()
+    Window1 = BigWindow(root, "Cree Word Problem Generator", "900x500")
+
+Main()

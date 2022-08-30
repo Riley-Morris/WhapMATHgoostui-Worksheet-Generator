@@ -134,6 +134,7 @@ print(q1.generate_divis_gather(10, 100, 'y'))
 #GUI STUFF BELOW
 #main window for gui
 rad_font = ('Cambria', 20)
+alt_font = ('Cambria', 14)
 class BigWindow:
     def __init__(self, root, title, geometry):
         self.root = root
@@ -175,14 +176,14 @@ class BigWindow:
         try:
             minadd = int(minadd)
         except:
-            #TODO- CREATE TOPLEVEL WINDOW DIPLAYING ERROR
             self.display_error()
         print(minadd)
     def display_error(self):
         errtop = Toplevel(self.root)
         errtop.title("Number Input Error")
-        errtop.geometry('200x200')
-        errlabel = Label(errtop, text = "Please only input numbers,\n I'm not a particularly smart program").pack()
+        errtop.geometry('350x150')
+        errlabel = Label(errtop, font = alt_font, text = "Please only input numbers,\n I'm not a particularly smart program").pack()
+        errbutt = Button(errtop, text = 'close', borderwidth = 3, width = 30, relief = 'raised', font = alt_font, command = errtop.destroy).pack()
 class Main:
     root = Tk()
     Window1 = BigWindow(root, "Word Problem Generator", "900x500")

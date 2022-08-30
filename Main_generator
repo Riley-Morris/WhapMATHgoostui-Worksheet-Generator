@@ -4,19 +4,20 @@ from tkinter import *
 name_list = [
 "James", "Mary", "Destin-Jay", "Patricia", "John", "Jennifer", "Garrick", "Linda", "Dave", "Faith", "William", "Elijah",
  "Boodoo", "Susannah", "Emily", "Jess", "Deborah", "Sarah", "Charlie", "Mckayla", "Chris", "Amy", "Judy", "Ruth",
- "Alice", "Betty", "Anthony", "Margaret", "Mark", "Holland", "Donovan", "Ashley", "Steve", "Kim", "Paul", "Emily",
- "Louisa", "Donna", "Josh", "George", "Melissa",
+ "Alice", "Betty", "Anthony", "Margaret", "Mark", "Holland", "Donovan", "Ashley", "Poasie", "Job", "Paul", "Emily",
+ "Louisa", "Deverick", "Rylan", "George", "Melissa",
  "Timothy", "Deborah", "Ronald", "Stephanie", "Carrie-Ann", "Valerie", "Louisa", "Winter", "Daylen", "Donovan", "Daniro",
  "Cynthia", "Jacob", "Braelyn", "Gary", "Amy", "Nicholas", "Angela", "Eric", "Shirley", "Jonathan", "Anna", "Stephen",
  "Brenda", "Linden", "Peter", "Justin", "Gilbert", "Nehemiah", "Nicole", "Brandon", "Helen", "Benjamin", "Samantha", "Sam",
  "Jack", "Catherine", "Dennis", "Maria", "Jerry", "Heather", "Tyler", "Diane", "Aaron", "Ruth", "Jose", "Julie", "Adam",
- "Samwillie", "Xavier", "Briar", "Zachary", "Dakotah", "Thomussie"
+ "SamWillie", "Xavier", "Briar", "Zachary", "Dakotah", "Thomussie"
  ]
 item_list1 = ['ptarmigan', 'caribou', 'rabbits', 'snowshoes', 'beavers', 'moccasins', 'slushies', 'pieces of bannock']
 item_list_box = ['pencils', 'crayons', 'markers', 'highlighters', 'stickers']
 actions1 = ['had', 'owned','was given', 'received']
 actionssub = ['sold', 'gave away', 'lost']
 actionsadd = ['were given', 'found', 'purchased', 'bought' ]
+gather_list = ['Labrador Tea', 'Blueberries', 'Cloudberries', 'Wild Rasberries']
 # attributes to be used. actions1_item is for initial part of certain questions - ex - sam HAS 10 things (HAS = actions1_item),
 # actionssub_item, actionadd_item etc are the action verbs that make up the 2nd part of question - ie she LOSES 5 things (LOSES = actionsub_item)
 
@@ -93,10 +94,32 @@ class Question:
         #when we dont need whole numbers for answer
         elif whole == 'n':
             sentence = f'{name_item} is planning their trip to camp. Their Camp is {num1} km away, How fast will they need to drive on average to arrive there in {num2} hours?'
-
+            answer = num1 / num2
         else:
             raise ValueError('Please input y or n for "whole"')
 
+        return sentence, answer
+    def generate_divis_gather(self, lower, upper, whole):
+        num1 = random.randint(lower, upper)
+        num2 = random.randint(lower / 2, upper / 2)
+        name_item = random.choice(name_list)
+        item_item = random.choice(gather_list)
+        # check if dividend is larger than divisor
+        if whole == 'y':
+            while num1 % num2 != 0:
+                num1 = random.randint(lower, upper)
+                num2 = random.randint(lower / 2, upper / 2)
+            else:
+                sentence = f' {name_item} is gathering {item_item} for their family. They need to gather {num1} grams of it to have enough. If they are gathering {num2} grams per hour, how many hours will it take them to gather enough?'
+                answer = num1 / num2
+
+        # when we dont need whole numbers for answer
+        elif whole == 'n':
+            sentence = f'{name_item} is gathering {item_item} for their family. They need to gather {num1} grams of it to have enough. If they are gathering {num2} grams per hour, how many hours will it take them to gather enough?'
+            answer = num1 / num2
+
+        else:
+            raise ValueError('Please input y or n for "whole"')
         return sentence, answer
 
 q1 = Question()
@@ -106,7 +129,7 @@ print(q1.generate_sub_quest(1, 5, 'n'))
 print(q1.generate_add_quest(1, 20))
 print(q1.generate_mult_box(1, 20))
 print(q1.generate_mult_drive(1, 10))
-print(q1.generate_divis_drive(10, 100, 'y'))
+print(q1.generate_divis_gather(10, 100, 'y'))
 
 #GUI STUFF BELOW
 #main window for gui
@@ -117,22 +140,51 @@ class BigWindow:
         self.root.title(title)
         self.root.geometry(geometry)
 
+        #labels for columns
+        operator_label = Label(self.root, text = 'Choose options', font = ('cambria', 20, 'bold'))
+        operator_label.grid(row = 0, column = 0)
         #create check buttons
-        addbutt = IntVar()
-        subbutt = IntVar()
-        multbutt = IntVar()
-        divbutt = IntVar()
+        self.addbutt = IntVar()
+        self.subbutt = IntVar()
+        self.multbutt = IntVar()
+        self.divbutt = IntVar()
 
-        Checkbutton(self.root, text = 'Addition', variable = addbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row = 0, column = 0, sticky = 'W')
-        Checkbutton(self.root, text = 'Subtraction', variable = subbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row = 1, column = 0, sticky = 'W')
-        Checkbutton(self.root, text='Multiplication', variable=multbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40).grid(row=2, column=0, sticky = 'W')
-        Checkbutton(self.root, text='Division', variable=divbutt, onvalue=1, offvalue = 0, font = rad_font, pady = 40).grid(row=3, column=0, sticky = 'W')
+        Check1 = Checkbutton(self.root, text = 'Addition', variable = self.addbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40)
+        Check1.grid(row = 1, column = 0, sticky = 'W')
+        Check2 = Checkbutton(self.root, text = 'Subtraction', variable = self.subbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40)
+        Check2.grid(row = 2, column = 0, sticky = 'W')
+        Check3 = Checkbutton(self.root, text='Multiplication', variable=self.multbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40)
+        Check3.grid(row=3, column=0, sticky = 'W')
+        Check4 = Checkbutton(self.root, text='Division', variable=self.divbutt, onvalue=1, offvalue = 0, font = rad_font, pady = 40)
+        Check4.grid(row=4, column=0, sticky = 'W')
+
+        #entry widgets for min max
+        self.e_add_minvar = StringVar()
+        self.e_add_minvar.set('32')
+        e_add_min = Entry(self.root, bd = 4, relief = 'sunken', textvariable = self.e_add_minvar, selectborderwidth = 5, font = ('Calibri', 20), width = 8)
+        e_add_min.grid(column = 1, row = 1, padx = 40)
+
+        #create/submit button
+        create_button = Button(self.root, text = 'Create Document', command = self.get_inputs)
+        create_button.grid(row = 3, column = 4)
 
         self.root.mainloop()
-        #function to get Checkbutton input
-
+        #function to get all inputs to connect to submit/create button
+    def get_inputs(self):
+        minadd = self.e_add_minvar.get()
+        try:
+            minadd = int(minadd)
+        except:
+            #TODO- CREATE TOPLEVEL WINDOW DIPLAYING ERROR
+            self.display_error()
+        print(minadd)
+    def display_error(self):
+        errtop = Toplevel(self.root)
+        errtop.title("Number Input Error")
+        errtop.geometry('200x200')
+        errlabel = Label(errtop, text = "Please only input numbers,\n I'm not a particularly smart program").pack()
 class Main:
     root = Tk()
-    Window1 = BigWindow(root, "Cree Word Problem Generator", "900x500")
+    Window1 = BigWindow(root, "Word Problem Generator", "900x500")
 
 Main()

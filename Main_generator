@@ -237,7 +237,8 @@ class BigWindow:
 
         #function to get all inputs to connect to submit/create button
     def get_inputs(self):
-        #get variables
+        #get variables from input
+        #minimums and maximums
         minadd = self.e_add_minvar.get()
         maxadd = self.e_add_maxvar.get()
         minsub = self.e_sub_minvar.get()
@@ -246,8 +247,13 @@ class BigWindow:
         maxmult = self.e_mult_maxvar.get()
         mindiv = self.e_div_minvar.get()
         maxdiv = self.e_div_maxvar.get()
+        # number of questions
         quest_ent = self.e_questvar.get()
-
+        #click buttons
+        clk_add = self.addbutt.get()
+        clk_sub = self.subbutt.get()
+        clk_mult = self.multbutt.get()
+        clk_div = self.divbutt.get()
 
         #error handling, check for only ints
         try:
@@ -267,6 +273,7 @@ class BigWindow:
             None
 
         print(minadd, maxadd, minsub, maxsub, minmult, maxmult, mindiv, maxdiv, quest_ent)
+        print(clk_add, clk_sub,clk_mult, clk_div)
 
         #displays top level window error if input is not integer
     def display_error(self):

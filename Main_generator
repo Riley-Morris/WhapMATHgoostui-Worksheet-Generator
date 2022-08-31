@@ -142,13 +142,23 @@ class BigWindow:
         self.root.geometry(geometry)
 
         #labels for columns
-        operator_label = Label(self.root, text = 'Choose options', font = ('cambria', 20, 'bold'))
+        operator_label = Label(self.root, text = 'Choose Operator', font = ('calibri', 20, 'bold'))
         operator_label.grid(row = 0, column = 0)
-        #create check buttons
+
+        min_label = Label(self.root, text = 'Min Value', font = ('calibri', 20, 'bold'))
+        min_label.grid(row = 0, column = 1)
+
+        max_label = Label(self.root, text='Max Value', font=('calibri', 20, 'bold'))
+        max_label.grid(row=0, column=2)
+
+        option_label = Label(self.root, text = 'Number of Questions:', font = ('calibri', 14))
+        option_label.grid(row = 2, column = 3, sticky = SW)
+        #create check buttons for operators
         self.addbutt = IntVar()
         self.subbutt = IntVar()
         self.multbutt = IntVar()
         self.divbutt = IntVar()
+        self.decbutt = IntVar()
 
         Check1 = Checkbutton(self.root, text = 'Addition', variable = self.addbutt, onvalue = 1, offvalue =0, font = rad_font, pady = 40)
         Check1.grid(row = 1, column = 0, sticky = 'W')
@@ -159,25 +169,106 @@ class BigWindow:
         Check4 = Checkbutton(self.root, text='Division', variable=self.divbutt, onvalue=1, offvalue = 0, font = rad_font, pady = 40)
         Check4.grid(row=4, column=0, sticky = 'W')
 
+        #option check buttons
+        #
+        # Checkdec = Checkbutton(self.root, text='Include decimal answers?', variable=self.decbutt, onvalue=1, offvalue=0, font = ('calibri', 12), pady=40)
+        # Checkdec.grid(row=4, column=3, sticky='W')
+
         #entry widgets for min max
         self.e_add_minvar = StringVar()
-        self.e_add_minvar.set('32')
         e_add_min = Entry(self.root, bd = 4, relief = 'sunken', textvariable = self.e_add_minvar, selectborderwidth = 5, font = ('Calibri', 20), width = 8)
-        e_add_min.grid(column = 1, row = 1, padx = 40)
+        e_add_min.grid(column=1, row=1, padx=40)
+        self.e_add_minvar.set('2')
+
+        self.e_add_maxvar = StringVar()
+        e_add_max = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_add_maxvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_add_max.grid(column=2, row=1, padx=40)
+        self.e_add_maxvar.set('20')
+
+        self.e_sub_minvar = StringVar()
+        e_sub_min = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_sub_minvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_sub_min.grid(column=1, row=2, padx=40)
+        self.e_sub_minvar.set('2')
+
+        self.e_sub_maxvar = StringVar()
+        e_sub_max = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_sub_maxvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_sub_max.grid(column=2, row=2, padx=40)
+        self.e_sub_maxvar.set('20')
+
+        self.e_mult_minvar = StringVar()
+        e_mult_min = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_mult_minvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_mult_min.grid(column=1, row=3, padx=40)
+        self.e_mult_minvar.set('2')
+
+        self.e_mult_maxvar = StringVar()
+        e_mult_max = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_mult_maxvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_mult_max.grid(column=2, row=3, padx=40)
+        self.e_mult_maxvar.set('20')
+
+        self.e_div_minvar = StringVar()
+        e_div_min = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_div_minvar, selectborderwidth=5,
+                           font=('Calibri', 20), width=8)
+        e_div_min.grid(column=1, row=4, padx=40)
+        self.e_div_minvar.set('2')
+
+        self.e_div_maxvar = StringVar()
+        e_div_max = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_div_maxvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_div_max.grid(column=2, row=4, padx=40)
+        self.e_div_maxvar.set('20')
+
+        #entry for number of questions
+        self.e_questvar = StringVar()
+        e_quest = Entry(self.root, bd=4, relief='sunken', textvariable=self.e_questvar, selectborderwidth=5,
+                          font=('Calibri', 20), width=8)
+        e_quest.grid(column=3, row=3, padx=40, sticky = NW)
+        self.e_questvar.set('15')
 
         #create/submit button
-        create_button = Button(self.root, text = 'Create Document', command = self.get_inputs)
-        create_button.grid(row = 3, column = 4)
+        create_button = Button(self.root, text = 'Create Document', width = 40, font = ('calibri', 18), command = self.get_inputs)
+        create_button.grid(row = 5, column = 1, columnspan = 2)
 
         self.root.mainloop()
+
         #function to get all inputs to connect to submit/create button
     def get_inputs(self):
+        #get variables
         minadd = self.e_add_minvar.get()
+        maxadd = self.e_add_maxvar.get()
+        minsub = self.e_sub_minvar.get()
+        maxsub = self.e_sub_maxvar.get()
+        minmult = self.e_mult_minvar.get()
+        maxmult = self.e_mult_maxvar.get()
+        mindiv = self.e_div_minvar.get()
+        maxdiv = self.e_div_maxvar.get()
+        quest_ent = self.e_questvar.get()
+
+
+        #error handling, check for only ints
         try:
             minadd = int(minadd)
+            maxadd = int(maxadd)
+            minsub = int(minsub)
+            maxsub = int(maxsub)
+            minmult = int(minmult)
+            maxmult = int(maxmult)
+            mindiv = int(mindiv)
+            maxdiv = int(maxdiv)
+            quest_ent = int(quest_ent)
         except:
             self.display_error()
-        print(minadd)
+
+        else:
+            None
+
+        print(minadd, maxadd, minsub, maxsub, minmult, maxmult, mindiv, maxdiv, quest_ent)
+
+        #displays top level window error if input is not integer
     def display_error(self):
         errtop = Toplevel(self.root)
         errtop.title("Number Input Error")
@@ -186,6 +277,6 @@ class BigWindow:
         errbutt = Button(errtop, text = 'close', borderwidth = 3, width = 30, relief = 'raised', font = alt_font, command = errtop.destroy).pack()
 class Main:
     root = Tk()
-    Window1 = BigWindow(root, "Word Problem Generator", "900x500")
+    Window1 = BigWindow(root, "Word Problem Generator", "960x650")
 
 Main()
